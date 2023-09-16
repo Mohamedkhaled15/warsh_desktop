@@ -1,0 +1,99 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:6586438508461797743",
+      "lastPropertyId": "7:5876548409535026706",
+      "name": "Customer",
+      "properties": [
+        {
+          "id": "1:4579550890685525553",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3595598593822635277",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:6899810075048572029",
+          "name": "phone",
+          "type": 9
+        },
+        {
+          "id": "4:8139520689101131223",
+          "name": "date",
+          "type": 9
+        },
+        {
+          "id": "5:4600659035463476919",
+          "name": "details",
+          "type": 9
+        },
+        {
+          "id": "6:1313963603127232181",
+          "name": "payed",
+          "type": 6
+        },
+        {
+          "id": "7:5876548409535026706",
+          "name": "restOfAmount",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:7028796362311548932",
+      "lastPropertyId": "5:3487311273564195585",
+      "name": "CustomerOrder",
+      "properties": [
+        {
+          "id": "1:424865005725100096",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1857718954700776766",
+          "name": "price",
+          "type": 6
+        },
+        {
+          "id": "3:2628503879018158697",
+          "name": "date",
+          "type": 9
+        },
+        {
+          "id": "4:1729133580868826642",
+          "name": "coinType",
+          "type": 9
+        },
+        {
+          "id": "5:3487311273564195585",
+          "name": "customerId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "1:4638635795609346361",
+          "relationTarget": "Customer"
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "2:7028796362311548932",
+  "lastIndexId": "1:4638635795609346361",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}
