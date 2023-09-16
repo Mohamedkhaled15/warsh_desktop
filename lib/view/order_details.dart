@@ -1,67 +1,77 @@
-// ignore_for_file: prefer_const_constructors
-
-// import 'package:fluent_ui/fluent_ui.dart';
-
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
+import 'package:lastbox_accounting_app/constant/constant.dart';
 
 import '../model/entities.dart';
-
-class OrderDetails extends StatefulWidget {
+import '../objectbox.g.dart';
+class OrderDetailsScreen extends StatelessWidget {
   final List<CustomerOrder> orders;
 
-  const OrderDetails({Key? key, required this.orders}) : super(key: key);
-
-  @override
-  State<OrderDetails> createState() => _OrderDetailsState();
-}
-
-class _OrderDetailsState extends State<OrderDetails> {
-  get orders => CustomerOrder;
+  OrderDetailsScreen({required this.orders});
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: SingleChildScrollView(
+    return Container(
+      color: MyColors.white,
+      child: ScaffoldPage(
+        resizeToAvoidBottomInset: true,
+        header:Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: orders
+            .map((order) =>
+            Row(
 
-        child: DataTable(
-          columns: const [
-            DataColumn(label: Text('إسم العميل'),
+              children: [
 
-            ),
-          ],
-          rows: widget.orders.map((order){
-            return DataRow(
-                cells: [
-                  DataCell(Text(order.customer.target?.name??'None'),
-                      onTap: (){
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return Material(
-                              child: ListView(
-                                children: order.customer.target!.orders
-                                    .map(
-                                      (_) => ListTile(
-                                    title: Text(
-                                      '${_.id}    ${_.customer.target?.name}    \$${_.price}',
-                                    ),
-                                  ),
-                                )
-                                    .toList(),
-                              ),
-                            );
-                          },
-                        );
-
-                      }
+                Card(
+                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  backgroundColor: MyColors.secondary,
+                  child: Center(
+                    child: Text('   فاتورة العميل  ${order.customer.target?.name} ',
+                      style: TextStyle(
+                          color: MyColors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30
+                      ),),
                   ),
-                ]
-            );
-          }).toList(),
+                ),
+
+                IconButton( icon: Icon(FluentIcons.navigate_back_mirrored,size: 35,color: MyColors.secondary,),
+                  onPressed: (){
+                    Navigator.pop(context);
+                  },),
+              ],
+            ),
+
+        ).toList(),
+        ),
+        content: ListView(
+          children: orders
+              .map((order) => Column(
+                children: [
+                  //       ListTile(
+                  //       title: Text(
+                  //         '${order.id}    ${order.customer.target?.name}    \$${order.price}',
+                  //       ),
+                  // ),
+                  Table(
+
+                    children: [
+                      TableRow(
+                        children: [
+                          Text('${order.customer.target?.name}')
+                        ]
+                      ),
+
+                    ],
+                  ),
+
+           
+                ],
+              ),
+          )
+              .toList(),
         ),
       ),
-
     );
   }
 }

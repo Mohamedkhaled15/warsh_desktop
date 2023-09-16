@@ -2,7 +2,9 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:faker/faker.dart';
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart' as f ;
+
+import 'package:flutter/material.dart' ;
 import 'package:lastbox_accounting_app/model/objectbox_interface.dart';
 import 'package:lastbox_accounting_app/objectbox.g.dart';
 import 'package:objectbox/objectbox.dart';
@@ -10,8 +12,6 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import '../component/custom_textfild.dart';
 import '../model/entities.dart';
-
-
 import 'order_data_table.dart';
 DateTime now = DateTime.now();
 String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
@@ -77,32 +77,48 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add) ,
         onPressed: (){
           _dialogBuilder(context);
-
-
         },
-        child: Icon(Icons.add),
       ),
-      appBar: AppBar(
-        title: Text('Accounting App'),
-        actions: const [
-          // IconButton(
-          //     onPressed: setNewCustomer, icon: Icon(Icons.person_add_alt)),
-          // IconButton(
-          //     onPressed: addFakerOrderForCurrentCustomer,
-          //     icon: Icon(Icons.attach_money)),
-        ],
-      ),
-      body: !hasBeenInitialized? Center(child: CircularProgressIndicator(),):
+
+      // bottomBar: IconButton(
+      //
+      //   icon:Icon(f.FluentIcons.add) ,
+      //   onPressed: (){
+      //     _dialogBuilder(context);
+      //   },
+      // ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: (){
+      //     _dialogBuilder(context);
+      //
+      //
+      //   },
+      //   child: ,
+      // ),
+      // appBar: AppBar(
+      //   title: Text('Accounting App'),
+      //   actions: const [
+      //     // IconButton(
+      //     //     onPressed: setNewCustomer, icon: Icon(Icons.person_add_alt)),
+      //     // IconButton(
+      //     //     onPressed: addFakerOrderForCurrentCustomer,
+      //     //     icon: Icon(Icons.attach_money)),
+      //   ],
+      // ),
+      body: !hasBeenInitialized? Center(child: f.ProgressRing(),):
         StreamBuilder<List<CustomerOrder>>(
           stream: _stream,
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return Center(child: CircularProgressIndicator(),);
+              return Center(child: f.ProgressRing(),);
             }
             return OrderDataTable(
+
                 orders: snapshot.data!,
                 onSort: (columnIndex, ascending) {
                   final newQueryBuilder = _store?.box<CustomerOrder>().query();
@@ -117,7 +133,8 @@ class _HomePageState extends State<HomePage> {
                         .map((query) => query.find());
                   }
                   );
-                }, store: _store!,
+                },
+              store: _store!,
             );
           }
             ),
@@ -138,10 +155,10 @@ class _HomePageState extends State<HomePage> {
       context: context,
       builder: (BuildContext context) {
         return  AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius:
-              BorderRadius.all(
-                  Radius.circular(10.0))),
+          // style: RoundedRectangleBorder(
+          //     borderRadius:
+          //     BorderRadius.all(
+          //         Radius.circular(10.0))),
 
           title: Text('إضافة حساب جديد'),
           content: Builder(
@@ -158,7 +175,7 @@ class _HomePageState extends State<HomePage> {
                             height: 20,
                           ),
                           CustomTextField(
-                            icon: Icons.person_add_alt,
+                            icon: f.FluentIcons.personalize,
                             hint: 'أدخل اسم العميل',
                             onClick: (value){
                               setState(() {
@@ -171,7 +188,7 @@ class _HomePageState extends State<HomePage> {
                           ),
 
                           CustomTextField(
-                            icon: Icons.attach_money,
+                            icon: f.FluentIcons.money,
                             keyBordNumberType: TextInputType.number,
                             hint: 'أدخل المبلغ ',
                             onClick: (value){
@@ -185,7 +202,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           CustomTextField(
                             keyBordNumberType: TextInputType.phone,
-                            icon: Icons.phone,
+                            icon: f.FluentIcons.phone,
                             hint: 'أدخل رقم الهاتف',
                             onClick: (value){
                               setState(() {
@@ -246,7 +263,6 @@ class _HomePageState extends State<HomePage> {
                       final order = CustomerOrder(
                          // price: faker.randomGenerator.integer(500,min: 10),
                           price: _price.toInt(),
-
                           date:formattedDate.toString() ,
                           coinType: 'National');
                       order.customer.target = _customer;
@@ -257,7 +273,7 @@ class _HomePageState extends State<HomePage> {
                     Navigator.pop(context);
 
                   });
-                }, icon: Icon(Icons.save_as_outlined,color: Colors.blue,)),
+                }, icon: Icon(f.FluentIcons.saved_offline,color: Colors.blue,)),
         //     IconButton(
         //         onPressed: () {
         //

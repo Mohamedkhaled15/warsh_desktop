@@ -1,10 +1,12 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:lastbox_accounting_app/objectbox.g.dart';
+import 'package:lastbox_accounting_app/view/homeView.dart';
 
 
 import '../model/entities.dart';
+import 'order_details.dart';
 class OrderDataTable extends StatefulWidget {
   final List<CustomerOrder> orders;
   final Store store;
@@ -23,17 +25,15 @@ class OrderDataTable extends StatefulWidget {
 }
 
 class _OrderDataTableState extends State<OrderDataTable> {
-
+HomePage controller=HomePage();
   bool _sortAscending = true;
   int _sortColumnIndex=0;
+  // String info=
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-
-      
-        
         child: SingleChildScrollView(
           child: DataTable(
             headingRowColor:  MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
@@ -101,24 +101,30 @@ class _OrderDataTableState extends State<OrderDataTable> {
                       DataCell(Text(order.customer.target?.phone??'None'),),
                       DataCell(Text(order.customer.target?.name??'None'),
                           onTap: (){
-                            showModalBottomSheet(
-                              context: context,
-                              builder: (context) {
-                                return Material(
-                                  child: ListView(
-                                    children: order.customer.target!.orders
-                                        .map(
-                                          (_) => ListTile(
-                                        title: Text(
-                                          '${_.id}    ${_.customer.target?.name}    \$${_.price}',
-                                        ),
-                                      ),
-                                    )
-                                        .toList(),
-                                  ),
-                                );
-                              },
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => OrderDetailsScreen(
+                                    orders: order.customer.target!.orders),
+                              ),
                             );
+                            // showModalBottomSheet(
+                            //
+                            //   context: context,
+                            //   builder: (context) {
+                            //     return Material(
+                            //       child: ListView(
+                            //         children: order.customer.target!.orders
+                            //             .map((_) => ListTile(
+                            //             title: Text(
+                            //               '${_.id}    ${_.customer.target?.name}    \$${_.price}',
+                            //             ),
+                            //           ),
+                            //         ).toList(),
+                            //       ),
+                            //     );
+                            //   },
+                            // );
 
                           }
                       ),
@@ -131,7 +137,7 @@ class _OrderDataTableState extends State<OrderDataTable> {
 
           ),
         ),
-      
+
     );
   }
 
